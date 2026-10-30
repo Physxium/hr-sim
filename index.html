@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#244d3c">
+
+    <title>인사팀 시뮬레이터 | Physxium</title>
+    <meta name="description"
+        content="직원, 경영진, 개발팀, 언론의 요청 사이에서 인사팀장으로 12개월을 버티세요. 한정된 예산으로 실제 조치와 설명 방식을 선택하는 무료 웹 풍자 게임입니다.">
+    <meta name="author" content="Physxium">
+
+    <link rel="canonical" href="https://hr-sim.pages.dev/">
+
+    <!-- 링크 공유 정보 -->
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="ko_KR">
+    <meta property="og:site_name" content="Physxium">
+    <meta property="og:title" content="인사팀 시뮬레이터">
+    <meta property="og:description" content="현장을 지킬 것인가, 평가를 지킬 것인가. 인사팀장으로 12개월을 버티는 회사 생활 풍자 게임.">
+    <meta property="og:url" content="https://hr-sim.pages.dev/">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="인사팀 시뮬레이터">
+    <meta name="twitter:description" content="현장을 지킬 것인가, 평가를 지킬 것인가. 인사팀장으로 12개월을 버티세요.">
+
+    <link rel="stylesheet" href="./style.css">
+    <script src="./app.js" defer></script>
+</head>
+
+<body>
+    <main class="shell">
+        <header class="masthead">
+            <div>
+                <p class="eyebrow">HR Simulator</p>
+                <h1>인사팀 시뮬레이터<span>by Physxium</span></h1>
+            </div>
+            <span class="document-mark">인사팀 / 대외비</span>
+        </header>
+
+        <section id="intro" class="panel intro">
+            <span class="stamp">신임 팀장 안내</span>
+            <h2>진급을 축하합니다.</h2>
+
+            <p>당신은 인사팀장입니다.<br>
+                회사 안팎의 요청에 대응하며 <strong>12개월을 버티세요.</strong>
+            </p>
+            <p>요청마다 <strong>수용·거부·보류</strong>를 고르고,<br>
+                그 결정을 <strong>어떻게 보고할지</strong> 선택하세요.
+            </p>
+            <p>모든 대응을 정하면 다음 달로 넘어갑니다.<br>
+                경영진의 인사팀 평가가 바닥나면 해임됩니다.
+            </p>
+
+            <button id="start" class="primary" disabled>자료 불러오는 중</button>
+            <p id="load-note" class="muted" role="status">인수인계 자료를 확인하고 있습니다.</p>
+        </section>
+
+        <div id="game" hidden>
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">MONTHLY OPERATIONS</p>
+                    <h2 id="month-label"></h2>
+                </div>
+                <button id="restart" class="text-button">처음부터</button>
+            </div>
+
+            <section id="stats" class="stats" aria-label="회사 현황"></section>
+
+            <section class="panel briefing">
+                <div class="section-heading">
+                    <h2>월초 업무 브리핑</h2>
+                    <span class="small-tag">열람 권한: 팀장</span>
+                </div>
+                <p id="briefing-summary" class="muted"></p>
+                <ul id="briefing-list" class="briefing-list"></ul>
+                <p id="market-note" class="market-note"></p>
+
+                <div class="signs-section">
+                    <p class="eyebrow">사내 동향 / 지표로는 드러나지 않는 이야기</p>
+                    <div id="signs"></div>
+                </div>
+            </section>
+
+            <section class="requests-section" aria-labelledby="requests-title">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">PENDING REQUESTS</p>
+                        <h2 id="requests-title">이번 달 결재함</h2>
+                    </div>
+                    <span id="progress" class="small-tag"></span>
+                </div>
+                <p class="muted">
+                    각 카드에서 실제 조치와 설명 방식을 선택하세요.
+                    화살표는 예상되는 변화 방향과 강도입니다.
+                </p>
+                <div id="events"></div>
+            </section>
+
+            <section id="month-controls" class="panel month-controls">
+                <div>
+                    <strong>이번 달 예산 계획</strong>
+                    <p id="budget-plan" aria-live="polite"></p>
+                    <small class="muted">
+                        선택은 수정할 수 있습니다. 선택하지 않은 안건이 있다면 다음으로 넘어갈 수 없습니다. 다음 달 버튼을 누르면 모두 확정됩니다.
+                    </small>
+                </div>
+                <button id="next-month" class="primary" disabled>대응 확정 · 다음 달</button>
+            </section>
+
+            <section id="ending" class="panel ending" hidden>
+                <p class="eyebrow">PERSONNEL NOTICE</p>
+            
+                <h2 id="ending-title"></h2>
+                <p id="ending-copy"></p>
+            
+                <!-- 게임 종료 후 공개되는 숨은 지표 -->
+                <div class="ending-report">
+                    <div class="ending-report-heading">
+                        <p class="eyebrow">FINAL REPORT</p>
+                        <h3>그동안 회사는 어떻게 됐을까요?</h3>
+                        <p class="muted">
+                            공개하지 않았던 기술 경쟁력과
+                            실제 직원 분위기의 기록입니다.
+                        </p>
+                    </div>
+            
+                    <!-- 그래프 범례 -->
+                    <div class="ending-chart-legend">
+                        <span class="chart-key chart-key-t">
+                            기술 경쟁력
+                        </span>
+            
+                        <span class="chart-key chart-key-h">
+                            실제 직원 분위기
+                        </span>
+                    </div>
+            
+                    <!-- app.js가 실제 기록으로 SVG 그래프를 생성 -->
+                    <div id="ending-chart" class="ending-chart"></div>
+            
+                    <!-- 시작값과 최종값 -->
+                    <div class="ending-results">
+                        <div class="ending-result">
+                            <span class="ending-result-label">
+                                기술 경쟁력
+                            </span>
+            
+                            <strong>
+                                <span id="ending-t-start">—</span>
+                                <span class="ending-result-arrow">→</span>
+                                <span id="ending-t-end">—</span>
+                            </strong>
+                        </div>
+            
+                        <div class="ending-result">
+                            <span class="ending-result-label">
+                                실제 직원 분위기
+                            </span>
+            
+                            <strong>
+                                <span id="ending-h-start">—</span>
+                                <span class="ending-result-arrow">→</span>
+                                <span id="ending-h-end">—</span>
+                            </strong>
+                        </div>
+                    </div>
+                </div>
+            
+                <p class="muted">
+                    다시 플레이하려면 상단의 ‘처음부터’를 누르세요.
+                </p>
+            </section>
+
+            <pre id="debug" hidden></pre>
+        </div>
+
+        <footer class="site-footer">
+            <p>
+                HR Simulator<br>
+                모든 지표는 관리되고 있습니다.
+            </p>
+        
+            <nav class="footer-links" aria-label="제작자 및 사이트 정보">
+                <a href="https://physxium.pages.dev/" target="_blank" rel="noopener noreferrer">
+                    제작자 홈페이지
+                </a>
+        
+                <a href="https://physxium.pages.dev/privacy" target="_blank" rel="noopener noreferrer">
+                    개인정보처리방침
+                </a>
+            </nav>
+        
+            <small>
+                이 게임의 사건과 수치는 허구이며,
+                특정 기업이나 인물을 지칭하지 않습니다.
+            </small>
+        </footer>
+    </main>
+
+    <dialog id="help-dialog">
+        <h2 id="help-title"></h2>
+        <p id="help-copy"></p>
+        <form method="dialog">
+            <button class="primary">확인</button>
+        </form>
+    </dialog>
+</body>
+
+</html>

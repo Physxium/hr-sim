@@ -1,0 +1,170 @@
+{
+    "version": 2,
+    "months": 12,
+    "initial": {
+        "E": 60,
+        "C": 60,
+        "B": 10,
+        "O": 60,
+        "T": 60,
+        "H": 60
+    },
+    "limits": {
+        "E": 100,
+        "C": 100,
+        "B": 16,
+        "O": 100,
+        "T": 100,
+        "H": 100
+    },
+    "monthly": {
+        "baseBudget": 2,
+        "budgetStep": 25,
+        "technologyDecay": 1,
+        "cultureFollow": 0.1,
+        "cultureWeight": 0.08,
+        "opinionWeight": 0.04,
+        "reputationBase": -3,
+        "target": 60
+    },
+    "requests": {
+        "maxNew": 4,
+        "cooldown": 1,
+        "weightDivisor": 25,
+        "sourceMultipliers": {
+            "employee": 1,
+            "executive": 1,
+            "developer": 1.2,
+            "press": 0.8
+        },
+        "levels": [
+            {
+                "min": 0,
+                "count": 4
+            },
+            {
+                "min": 30,
+                "count": 3
+            }
+        ]
+    },
+    "marketStay": 0.65,
+    "markets": [
+        {
+            "id": "bad",
+            "label": "불황",
+            "budget": -1,
+            "morale": -2,
+            "description": "업계 실적이 나빠지고 있습니다. 경영진은 비용 절감을, 직원들은 고용 안정을 요구하고 있습니다."
+        },
+        {
+            "id": "normal",
+            "label": "보통",
+            "budget": 0,
+            "morale": 0,
+            "description": "업계에 큰 변화는 없습니다. 이번 달 실적은 업황 탓으로 돌리기 어렵겠습니다."
+        },
+        {
+            "id": "good",
+            "label": "호황",
+            "budget": 1,
+            "morale": 2,
+            "description": "업계 실적이 좋아지고 있습니다. 경영진은 목표를 높였고, 직원들은 보상 소식을 기다리고 있습니다."
+        }
+    ],
+    "sourceEffects": {
+        "employee": {
+            "E": -4
+        },
+        "executive": {
+            "E": 5
+        },
+        "developer": {
+            "E": -4
+        },
+        "press": {
+            "E": -4,
+            "O": 8
+        }
+    },
+    "rejectSourceEffects": {
+        "employee": {
+            "E": 1
+        },
+        "executive": {
+            "E": -4
+        },
+        "developer": {
+            "E": 1
+        },
+        "press": {
+            "E": 1,
+            "O": -4
+        }
+    },
+    "deferEffects": {
+        "employee": {
+            "H": -2
+        },
+        "executive": {
+            "E": -2
+        },
+        "developer": {
+            "T": -2
+        },
+        "press": {
+            "O": -2
+        }
+    },
+    "packages": [
+        {
+            "id": "plain",
+            "label": "있는 그대로 설명",
+            "cost": 0,
+            "effects": {}
+        },
+        {
+            "id": "management",
+            "label": "경영 논리로 설명",
+            "cost": 0,
+            "effects": {
+                "E": 3,
+                "H": -2
+            }
+        },
+        {
+            "id": "culture",
+            "label": "조직 문화 성과로 홍보",
+            "cost": 2,
+            "effectMultipliers": {
+                "E": 0.7,
+                "H": 0.7
+            },
+            "effects": {
+                "C": 6
+            }
+        }
+    ],
+    "help": {
+        "E": {
+            "title": "인사팀 평가",
+            "text": "경영진이 인사팀을 평가하는 점수입니다. 요청 대응과 월말 평가에 따라 변합니다. 경영진은 매달 개선 실적을 요구하므로 현상 유지에도 부담이 있습니다. 다음 달 예산에 영향을 주며, 0이 되면 해임됩니다."
+        },
+        "C": {
+            "title": "조직 문화 점수",
+            "text": "설문과 보고서에 기록되는 공식 점수입니다. 실제 직원 분위기와 다를 수 있습니다. 문화 성과 홍보로 올릴 수 있지만, 월말에는 실제 직원 반응도 반영됩니다. 점수가 높으면 인사팀의 월말 평가에 도움이 됩니다."
+        },
+        "B": {
+            "title": "가용 예산",
+            "text": "요청 처리와 홍보 활동에 사용하는 예산입니다. 다음 달 배정액은 인사팀 평가·기술 경쟁력·시황에 따라 달라집니다. 보유 한도는 16입니다. 절감안으로 확보한 금액을 한도에 반영한 뒤 선택한 대응 비용을 지출합니다."
+        },
+        "O": {
+            "title": "외부 여론",
+            "text": "회사에 대한 외부 평가입니다. 언론 요청에 어떻게 대응하는지에 따라 변합니다. 낮아지면 언론 요청이 늘어나고, 인사팀의 월말 평가에도 불리하게 작용합니다."
+        },
+        "market": {
+            "title": "업계 시황",
+            "text": "회사 밖의 사업 환경입니다. 불황·보통·호황으로 나뉘며 예산 배정과 직원 분위기에 영향을 줍니다. 불황에는 배정액이 1 줄고, 호황에는 1 늘어납니다."
+        }
+    }
+}
