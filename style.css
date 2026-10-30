@@ -908,3 +908,23 @@ footer {
     display: block;
     line-height: 1.7;
 }
+
+.adfit-wrap {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#adfitTopWrap {
+    margin: 0 auto 20px;
+}
+
+#adfitBottomWrap {
+    margin: 18px auto 8px;
+}
+
+.adfit-wrap .kakao_ad_area {
+    display: block;
+    max-width: 100%;
+}
